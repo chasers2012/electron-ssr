@@ -1,9 +1,9 @@
-import {app, Menu} from 'electron';
-import {appConfig$, currentConfig} from './data';
-import {changeProxy} from './tray';
+import { app, Menu } from 'electron';
+import { appConfig$, currentConfig } from './data';
+import { changeProxy } from './tray';
 import * as handler from './tray-handler';
-import {checkUpdate} from './updater';
-import {isMac, isLinux} from '../shared/env';
+import { checkUpdate } from './updater';
+import { isMac, isLinux } from '../shared/env';
 
 let showLinuxMenu = false;
 
@@ -72,6 +72,7 @@ function genMenuTemplate(appConfig) {
         label: 'PAC',
         submenu: [
           { label: '更新PAC', click: handler.updatePac },
+          { label: '重新加载本地PAC', click: handler.reloadLocalPac },
         ],
       },
       {

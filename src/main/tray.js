@@ -62,6 +62,8 @@ function generateMenus(appConfig) {
       label: 'PAC',
       submenu: [
         { label: '更新PAC', click: handler.updatePac },
+        { label: '打开本地PAC文件', click: handler.openPACFile },
+        { label: '重新加载本地PAC', click: handler.reloadLocalPac },
       ],
     },
     { label: '服务器', submenu: generateConfigSubmenus(appConfig.configs, appConfig.index) },
@@ -82,9 +84,24 @@ function generateMenus(appConfig) {
       submenu: [
         { label: '检查更新', click: () => checkUpdate(true) },
         { label: '查看日志', click: handler.openLog },
-        { label: '项目主页', click: () => { handler.openURL('https://github.com/erguotou520/electron-ssr'); } },
-        { label: 'Bug反馈', click: () => { handler.openURL('https://github.com/erguotou520/electron-ssr/issues'); } },
-        { label: '捐赠', click: () => { handler.openURL('https://github.com/erguotou520/donate'); } },
+        {
+          label: '项目主页',
+          click: () => {
+            handler.openURL('https://github.com/erguotou520/electron-ssr');
+          }
+        },
+        {
+          label: 'Bug反馈',
+          click: () => {
+            handler.openURL('https://github.com/erguotou520/electron-ssr/issues');
+          }
+        },
+        {
+          label: '捐赠',
+          click: () => {
+            handler.openURL('https://github.com/erguotou520/donate');
+          }
+        },
         { label: '打开开发者工具', click: handler.openDevtool },
       ],
     },
@@ -96,13 +113,22 @@ function generateMenus(appConfig) {
         label: '系统代理模式        ',
         submenu: [
           {
-            label: '不启用代理', type: 'checkbox', checked: appConfig.sysProxyMode === 0, click: (e) => changeProxy(e, 0, appConfig),
+            label: '不启用代理',
+            type: 'checkbox',
+            checked: appConfig.sysProxyMode === 0,
+            click: (e) => changeProxy(e, 0, appConfig),
           },
           {
-            label: 'PAC代理', type: 'checkbox', checked: appConfig.sysProxyMode === 1, click: (e) => changeProxy(e, 1, appConfig),
+            label: 'PAC代理',
+            type: 'checkbox',
+            checked: appConfig.sysProxyMode === 1,
+            click: (e) => changeProxy(e, 1, appConfig),
           },
           {
-            label: '全局代理', type: 'checkbox', checked: appConfig.sysProxyMode === 2, click: (e) => changeProxy(e, 2, appConfig),
+            label: '全局代理',
+            type: 'checkbox',
+            checked: appConfig.sysProxyMode === 2,
+            click: (e) => changeProxy(e, 2, appConfig),
           },
         ],
       });

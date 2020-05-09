@@ -1,7 +1,7 @@
 import { app, shell, clipboard } from 'electron';
 import { readJson, writeJson } from 'fs-extra';
 import { join } from 'path';
-import bootstrapPromise, { appConfigPath } from './bootstrap';
+import bootstrapPromise, { appConfigPath,pacPath } from './bootstrap';
 import { logPath } from './logger';
 import { showWindow, sendData } from './window';
 import { updateAppConfig, currentConfig } from './data';
@@ -34,6 +34,21 @@ export function switchConfig(index) {
 // 更新pac
 export function updatePac() {
   downloadPac(true).then(() => {
+    showNotification('PAC文件更新成功');
+  }).catch(() => {
+    showNotification('PAC文件更新失败');
+  });
+}
+
+// 打开PAC文件
+export async function openPACFile() {
+  await bootstrapPromise;
+  shell.openItem(pacPath);
+}
+
+// 重新加载本地PAC
+export function reloadLocalPac() {
+  downloadPac().then(() => {
     showNotification('PAC文件更新成功');
   }).catch(() => {
     showNotification('PAC文件更新失败');
