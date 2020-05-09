@@ -22,90 +22,91 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
-import EditTag from '../../components/EditTag'
-import { STORE_KEY_SSR_TIP } from '../../constants'
-const ls = window.localStorage
+import { mapState, mapMutations } from 'vuex';
+import EditTag from '../../components/EditTag';
+import { STORE_KEY_SSR_TIP } from '../../constants';
+
+const ls = window.localStorage;
 export default {
-  data () {
+  data() {
     return {
       showTip: !ls.getItem(STORE_KEY_SSR_TIP),
       method: '',
       protocol: '',
-      obfs: ''
-    }
+      obfs: '',
+    };
   },
   computed: {
-    ...mapState(['methods', 'protocols', 'obfses'])
+    ...mapState(['methods', 'protocols', 'obfses']),
   },
   components: {
-    EditTag
+    EditTag,
   },
   methods: {
     ...mapMutations(['updateView', 'updateMethods', 'updateProtocols', 'updateObfses']),
-    closeTip () {
-      ls.setItem(STORE_KEY_SSR_TIP, true)
+    closeTip() {
+      ls.setItem(STORE_KEY_SSR_TIP, true);
     },
-    addMethod () {
+    addMethod() {
       if (this.method) {
-        const clone = this.methods.slice()
-        clone.push(this.method)
-        this.updateMethods(clone)
-        this.method = ''
+        const clone = this.methods.slice();
+        clone.push(this.method);
+        this.updateMethods(clone);
+        this.method = '';
       }
     },
-    addProtocol () {
+    addProtocol() {
       if (this.protocol) {
-        const clone = this.protocols.slice()
-        clone.push(this.protocol)
-        this.updateProtocols(clone)
-        this.protocol = ''
+        const clone = this.protocols.slice();
+        clone.push(this.protocol);
+        this.updateProtocols(clone);
+        this.protocol = '';
       }
     },
-    addObfs () {
+    addObfs() {
       if (this.obfs) {
-        const clone = this.obfses.slice()
-        clone.push(this.obfs)
-        this.updateObfses(clone)
-        this.obfs = ''
+        const clone = this.obfses.slice();
+        clone.push(this.obfs);
+        this.updateObfses(clone);
+        this.obfs = '';
       }
     },
-    updateMethod (method, newVal) {
-      const clone = this.methods.slice()
-      const index = clone.indexOf(method)
-      clone.splice(index, 1)
-      clone.splice(index, 0, newVal)
-      this.updateMethods(clone)
+    updateMethod(method, newVal) {
+      const clone = this.methods.slice();
+      const index = clone.indexOf(method);
+      clone.splice(index, 1);
+      clone.splice(index, 0, newVal);
+      this.updateMethods(clone);
     },
-    updateProtocol (protocol, newVal) {
-      const clone = this.protocols.slice()
-      const index = clone.indexOf(protocol)
-      clone.splice(index, 1)
-      clone.splice(index, 0, newVal)
-      this.updateProtocols(clone)
+    updateProtocol(protocol, newVal) {
+      const clone = this.protocols.slice();
+      const index = clone.indexOf(protocol);
+      clone.splice(index, 1);
+      clone.splice(index, 0, newVal);
+      this.updateProtocols(clone);
     },
-    updateObfs (obfs, newVal) {
-      const clone = this.obfses.slice()
-      const index = clone.indexOf(obfs)
-      clone.splice(index, 1)
-      clone.splice(index, 0, newVal)
-      this.updateObfses(clone)
+    updateObfs(obfs, newVal) {
+      const clone = this.obfses.slice();
+      const index = clone.indexOf(obfs);
+      clone.splice(index, 1);
+      clone.splice(index, 0, newVal);
+      this.updateObfses(clone);
     },
-    removeMethod (name) {
-      const clone = this.methods.slice()
-      clone.splice(clone.indexOf(name), 1)
-      this.updateMethods(clone)
+    removeMethod(name) {
+      const clone = this.methods.slice();
+      clone.splice(clone.indexOf(name), 1);
+      this.updateMethods(clone);
     },
-    removeProtocol (name) {
-      const clone = this.protocols.slice()
-      clone.splice(clone.indexOf(name), 1)
-      this.updateProtocols(clone)
+    removeProtocol(name) {
+      const clone = this.protocols.slice();
+      clone.splice(clone.indexOf(name), 1);
+      this.updateProtocols(clone);
     },
-    removeObfs (name) {
-      const clone = this.obfses.slice()
-      clone.splice(clone.indexOf(name), 1)
-      this.updateObfses(clone)
-    }
-  }
-}
+    removeObfs(name) {
+      const clone = this.obfses.slice();
+      clone.splice(clone.indexOf(name), 1);
+      this.updateObfses(clone);
+    },
+  },
+};
 </script>

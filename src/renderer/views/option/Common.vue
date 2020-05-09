@@ -31,12 +31,13 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import { isSSRPathAvaliable, debounce } from '../../../shared/utils'
-import { openDialog } from '../../ipc'
+import { mapActions } from 'vuex';
+import { isSSRPathAvaliable, debounce } from '../../../shared/utils';
+import { openDialog } from '../../ipc';
+
 export default {
-  data () {
-    const appConfig = this.$store.state.appConfig
+  data() {
+    const { appConfig } = this.$store.state;
     return {
       form: {
         ssrPath: appConfig.ssrPath,
@@ -45,66 +46,68 @@ export default {
         localPort: appConfig.localPort,
         pacPort: appConfig.pacPort,
         httpProxyEnable: appConfig.httpProxyEnable,
-        httpProxyPort: appConfig.httpProxyPort
+        httpProxyPort: appConfig.httpProxyPort,
       },
       rules: {
         ssrPath: [
-          { validator: (rule, value, callback) => {
-            if (isSSRPathAvaliable(value)) {
-              callback()
-            } else {
-              callback('该目录不正确，请重新选择')
-            }
-          } }
-        ]
-      }
-    }
+          {
+            validator: (rule, value, callback) => {
+              if (isSSRPathAvaliable(value)) {
+                callback();
+              } else {
+                callback('该目录不正确，请重新选择');
+              }
+            },
+          },
+        ],
+      },
+    };
   },
   watch: {
-    'appConfig.ssrPath' (v) {
-      this.ssrPath = v
+    'appConfig.ssrPath': function (v) {
+      this.ssrPath = v;
     },
-    'appConfig.autoLaunch' (v) {
-      this.autoLaunch = v
+    'appConfig.autoLaunch': function (v) {
+      this.autoLaunch = v;
     },
-    'appConfig.shareOverLan' (v) {
-      this.shareOverLan = v
+    'appConfig.shareOverLan': function (v) {
+      this.shareOverLan = v;
     },
-    'appConfig.localPort' (v) {
-      this.localPort = v
+    'appConfig.localPort': function (v) {
+      this.localPort = v;
     },
-    'appConfig.pacPort' (v) {
-      this.pacPort = v
-    }
+    'appConfig.pacPort': function (v) {
+      this.pacPort = v;
+    },
   },
   methods: {
     ...mapActions(['updateConfig']),
-    changeSSRPath () {
-      this.$refs.form.validate(valid => {
+    changeSSRPath() {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          this.updateConfig({ ssrPath: this.form.ssrPath })
+          this.updateConfig({ ssrPath: this.form.ssrPath });
         }
-      })
+      });
     },
     // 选择目录
-    selectPath () {
+    selectPath() {
       const path = openDialog({
-        properties: ['openDirectory']
-      })
+        properties: ['openDirectory'],
+      });
       if (path && path.length) {
-        this.form.ssrPath = path[0]
-        this.$refs.form.validate(valid => {
+        this.form.ssrPath = path[0];
+        this.$refs.form.validate((valid) => {
           if (valid) {
-            this.updateConfig({ ssrPath: this.form.ssrPath })
+            this.updateConfig({ ssrPath: this.form.ssrPath });
           }
-        })
+        });
       }
     },
     update: debounce(function (field) {
       if (this.form[field] !== this.$store.state.appConfig[field]) {
-        this.updateConfig({ [field]: this.form[field] })
+        this.updateConfig({ [field]: this.form[field] });
       }
-    }, 1000)
-  }
-}
+    }, 1000),
+  },
+};
 </script>

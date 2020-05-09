@@ -1,4 +1,5 @@
-import { isLinux, isMac } from './env'
+import { isLinux, isMac } from './env';
+
 const defaultConfig = {
   // 配置集合
   configs: [],
@@ -26,41 +27,41 @@ const defaultConfig = {
   globalShortcuts: {
     toggleWindow: {
       key: isLinux ? 'Ctrl+Shift+W' : '',
-      enable: isLinux
+      enable: isLinux,
     },
     switchSystemProxy: {
       key: '',
-      enable: false
-    }
+      enable: false,
+    },
   },
   // 窗口快捷键
   windowShortcuts: {
     toggleMenu: {
       key: isLinux ? `${isMac ? 'Command' : 'Ctrl'}+Shift+B` : '',
-      enable: isLinux
-    }
+      enable: isLinux,
+    },
   },
   // http proxy端口
   httpProxyPort: 12333,
   // 是否自动更新订阅服务器
   autoUpdateSubscribes: true,
   // 订阅服务器自动更新周期，单位：小时
-  subscribeUpdateInterval: 24
-}
+  subscribeUpdateInterval: 24,
+};
 
-export default defaultConfig
+export default defaultConfig;
 
 // 合并默认配置，做好配置升级
-export function mergeConfig (appConfig) {
-  Object.keys(defaultConfig).forEach(key => {
+export function mergeConfig(appConfig) {
+  Object.keys(defaultConfig).forEach((key) => {
     if (appConfig[key] === undefined || typeof appConfig[key] !== typeof defaultConfig[key]) {
-      appConfig[key] = defaultConfig[key]
+      appConfig[key] = defaultConfig[key];
     } else if (typeof appConfig[key] === 'object') {
       for (const index in appConfig[key]) {
         if (appConfig[key][index] === undefined) {
-          appConfig[key][index] = defaultConfig[key][index]
+          appConfig[key][index] = defaultConfig[key][index];
         }
       }
     }
-  })
+  });
 }

@@ -1,9 +1,6 @@
-import Vue from 'vue'
-import { Row, Col } from 'erguotou-iview/src/components/grid'
-import { Select, Option, OptionGroup } from 'erguotou-iview/src/components/select'
-import AppView from './AppView'
-import ExternalLink from './ExternalLink'
-
+import Vue from 'vue';
+import { Row, Col } from 'erguotou-iview/src/components/grid';
+import { Select, Option, OptionGroup } from 'erguotou-iview/src/components/select';
 import {
   Alert,
   AutoComplete,
@@ -21,8 +18,11 @@ import {
   Tree,
   Tooltip,
   Poptip,
-  Spin
-} from 'erguotou-iview'
+  Spin,
+} from 'erguotou-iview';
+import AppView from './AppView';
+import ExternalLink from './ExternalLink';
+
 
 const components = {
   Alert,
@@ -51,16 +51,16 @@ const components = {
   Tree,
   Tooltip,
   Poptip,
-  Spin
-}
+  Spin,
+};
 
-Object.keys(components).forEach(key => {
+Object.keys(components).forEach((key) => {
   if (process.env.NODE !== 'production') {
-    console.log('i' + key)
+    console.log(`i${key}`);
   }
-  Vue.component('i' + key, components[key])
-})
+  Vue.component(`i${key}`, components[key]);
+});
 
-Vue.prototype.$Message = Message
-Vue.component('AppView', AppView)
-Vue.component('ExternalLink', ExternalLink)
+Vue.prototype.$Message = Message;
+Vue.component('AppView', AppView);
+Vue.component('ExternalLink', ExternalLink);

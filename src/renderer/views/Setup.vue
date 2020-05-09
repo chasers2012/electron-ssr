@@ -23,17 +23,17 @@
   </app-view>
 </template>
 <script>
-import { ipcRenderer } from 'electron'
-import { join } from 'path'
-import { mapState, mapMutations } from 'vuex'
-import { openDialog } from '../ipc'
-import { isSSRPathAvaliable } from '../../shared/utils'
-import { STORE_KEY_AUTO_DOWNLOAD } from '../constants'
-import { EVENT_SSR_DOWNLOAD_RENDERER, EVENT_SSR_DOWNLOAD_MAIN } from '../../shared/events'
-import Dot from '../components/Dot'
+import { ipcRenderer } from 'electron';
+import { join } from 'path';
+import { mapState, mapMutations } from 'vuex';
+import { openDialog } from '../ipc';
+import { isSSRPathAvaliable } from '../../shared/utils';
+import { STORE_KEY_AUTO_DOWNLOAD } from '../constants';
+import { EVENT_SSR_DOWNLOAD_RENDERER, EVENT_SSR_DOWNLOAD_MAIN } from '../../shared/events';
+import Dot from '../components/Dot';
 
 export default {
-  data () {
+  data() {
     return {
       autoDownload: localStorage.getItem(STORE_KEY_AUTO_DOWNLOAD) === '1',
       // 手动下载
@@ -41,96 +41,98 @@ export default {
       // 自动模式下载出错
       autoError: '',
       form: {
-        ssrPath: ''
+        ssrPath: '',
       },
       rules: {
         ssrPath: [
           { required: true, message: '请选择shadowsocks目录' },
-          { validator: (rule, value, callback) => {
-            if (isSSRPathAvaliable(value)) {
-              callback()
-            } else {
-              callback('该目录不正确，请重新选择')
-            }
-          } }
-        ]
-      }
-    }
+          {
+            validator: (rule, value, callback) => {
+              if (isSSRPathAvaliable(value)) {
+                callback();
+              } else {
+                callback('该目录不正确，请重新选择');
+              }
+            },
+          },
+        ],
+      },
+    };
   },
   computed: {
-    ...mapState(['meta'])
+    ...mapState(['meta']),
   },
   components: {
-    Dot
+    Dot,
   },
   watch: {
-    autoError (v) {
+    autoError(v) {
       if (v) {
         this.$Message.error({
           content: v,
-          duration: 0
-        })
+          duration: 0,
+        });
       } else {
-        this.$Message.destroy()
+        this.$Message.destroy();
       }
-    }
+    },
   },
   methods: {
     ...mapMutations(['updateConfig']),
-    restart () {
-      this.autoError = ''
-      this.autoStart()
+    restart() {
+      this.autoError = '';
+      this.autoStart();
     },
     // 自动模式
-    autoStart () {
-      this.manualDownload = true
-      this.autoError = ''
-      const self = this
+    autoStart() {
+      this.manualDownload = true;
+      this.autoError = '';
+      const self = this;
 
-      function callback (e, errMessage) {
-        console.log('download ssr result', e, errMessage)
-        ipcRenderer.removeListener(EVENT_SSR_DOWNLOAD_MAIN, callback)
+      function callback(e, errMessage) {
+        console.log('download ssr result', e, errMessage);
+        ipcRenderer.removeListener(EVENT_SSR_DOWNLOAD_MAIN, callback);
         if (errMessage) {
-          self.autoError = errMessage
+          self.autoError = errMessage;
         } else {
           self.$nextTick(() => {
             // 需要在下载目录后追加shadowsocks子目录
-            self.setup(join(self.meta.defaultSSRDownloadDir, 'shadowsocks'))
-          })
+            self.setup(join(self.meta.defaultSSRDownloadDir, 'shadowsocks'));
+          });
         }
       }
 
-      ipcRenderer.send(EVENT_SSR_DOWNLOAD_RENDERER)
-      ipcRenderer.on(EVENT_SSR_DOWNLOAD_MAIN, callback)
+      ipcRenderer.send(EVENT_SSR_DOWNLOAD_RENDERER);
+      ipcRenderer.on(EVENT_SSR_DOWNLOAD_MAIN, callback);
     },
     // 选择目录
-    selectPath () {
-      this.manualDownload = false
+    selectPath() {
+      this.manualDownload = false;
       const path = openDialog({
-        properties: ['openDirectory']
-      })
+        properties: ['openDirectory'],
+      });
       if (path && path.length) {
-        this.form.ssrPath = path[0]
-        this.$refs.form.validate(valid => {
+        this.form.ssrPath = path[0];
+        this.$refs.form.validate((valid) => {
           if (valid) {
-            this.setup()
+            this.setup();
           }
-        })
+        });
       }
     },
     // 完成初始化
-    setup (ssrPath) {
-      this.$Message.destroy()
-      this.updateConfig([{ ssrPath: ssrPath || this.form.ssrPath }, true])
-      this.$emit('finished')
+    setup(ssrPath) {
+      this.$Message.destroy();
+      this.updateConfig([{ ssrPath: ssrPath || this.form.ssrPath }, true]);
+      this.$emit('finished');
+    },
+  },
+  created() {
+    if (this.autoDownload) {
+      this.autoStart();
     }
   },
-  created () {
-    if (this.autoDownload) {
-      this.autoStart()
-    }
-  }
-}
+};
 </script>
 <style lang="stylus">
 @import '../assets/styles/variable'

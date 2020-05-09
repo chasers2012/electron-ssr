@@ -6,31 +6,32 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
-import Feature from './views/Feature'
-import Setup from './views/Setup'
-import Options from './views/Options'
-import ManagePanel from './views/ManagePanel'
+import { mapState, mapMutations } from 'vuex';
+import Feature from './views/Feature';
+import Setup from './views/Setup';
+import Options from './views/Options';
+import ManagePanel from './views/ManagePanel';
+
 export default {
   computed: {
-    ...mapState(['appConfig', 'appMetaConfig', 'view'])
+    ...mapState(['appConfig', 'appMetaConfig', 'view']),
   },
   methods: {
     ...mapMutations(['prevView', 'nextView']),
-    onBack () {
-      this.prevView()
+    onBack() {
+      this.prevView();
     },
-    onStepFinished (data) {
-      this.nextView()
-    }
+    onStepFinished(data) {
+      this.nextView();
+    },
   },
   components: {
     Feature,
     Setup,
     Options,
-    ManagePanel
-  }
-}
+    ManagePanel,
+  },
+};
 </script>
 <style lang="stylus">
 @import '~erguotou-iview/dist/styles/iview.css'

@@ -1,34 +1,33 @@
-import { isWin } from './env'
-import { dialog as _dialog, remote } from 'electron'
+import { dialog as _dialog, remote } from 'electron';
+import { isWin } from './env';
 
-const dialog = _dialog || remote.dialog
+const dialog = _dialog || remote.dialog;
 
-function choose (title, filters, isFile = true, isSave = false, defaultPath) {
+function choose(title, filters, isFile = true, isSave = false, defaultPath) {
   const path = dialog[isSave ? 'showSaveDialog' : 'showOpenDialog']({
     title,
     defaultPath,
     properties: [isFile ? 'openFile' : 'openDirectory'],
     filters
-  })
+  });
   if (isSave) {
     if (path) {
-      return path
-    } else {
-      return null
+      return path;
     }
-  } else if (path && path.length) {
-    let _path = path[0]
+    return null;
+  } if (path && path.length) {
+    let _path = path[0];
     if (isWin) {
-      _path = _path.replace(/\\/g, '\\\\')
+      _path = _path.replace(/\\/g, '\\\\');
     }
-    return _path
+    return _path;
   }
-  return null
+  return null;
 }
 
-export function chooseFile (title, filters, defaultPath) {
-  return choose(title, filters, true, false, defaultPath)
+export function chooseFile(title, filters, defaultPath) {
+  return choose(title, filters, true, false, defaultPath);
 }
-export function chooseSavePath (title, filters, defaultPath) {
-  return choose(title, filters, true, true, defaultPath)
+export function chooseSavePath(title, filters, defaultPath) {
+  return choose(title, filters, true, true, defaultPath);
 }

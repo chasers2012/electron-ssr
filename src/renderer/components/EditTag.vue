@@ -8,31 +8,31 @@
 <script>
 export default {
   props: {
-    name: String
+    name: String,
   },
-  data () {
+  data() {
     return {
       isEditing: false,
-      editingName: this.name
-    }
+      editingName: this.name,
+    };
   },
   watch: {
-    name (v) {
-      this.editingName = v
-    }
+    name(v) {
+      this.editingName = v;
+    },
   },
   methods: {
-    cancel () {
-      this.isEditing = false
-      this.editingName = this.name
-      this.$emit('on-cancel')
+    cancel() {
+      this.isEditing = false;
+      this.editingName = this.name;
+      this.$emit('on-cancel');
     },
-    save () {
+    save() {
       if (this.editingName) {
-        this.isEditing = false
-        this.$emit('on-update', this.editingName)
+        this.isEditing = false;
+        this.$emit('on-update', this.editingName);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

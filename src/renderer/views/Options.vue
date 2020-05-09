@@ -21,28 +21,28 @@
   </app-view>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { hideWindow } from '../ipc'
-import OptionCommon from './option/Common'
-import OptionSsr from './option/SSR'
-import OptionSubscribe from './option/Subscribe'
-import OptionShortcut from './option/Shortcut'
+import { mapState, mapMutations } from 'vuex';
+import { hideWindow } from '../ipc';
+import OptionCommon from './option/Common';
+import OptionSsr from './option/SSR';
+import OptionSubscribe from './option/Subscribe';
+import OptionShortcut from './option/Shortcut';
 
 export default {
   computed: {
-    ...mapState(['view'])
+    ...mapState(['view']),
   },
   components: {
-    OptionCommon, OptionSsr, OptionSubscribe, OptionShortcut
+    OptionCommon, OptionSsr, OptionSubscribe, OptionShortcut,
   },
   methods: {
     ...mapMutations(['resetState', 'updateView']),
-    done () {
-      this.resetState()
-      hideWindow()
-    }
-  }
-}
+    done() {
+      this.resetState();
+      hideWindow();
+    },
+  },
+};
 </script>
 <style lang="stylus">
 @import '../assets/styles/variable'

@@ -9,10 +9,10 @@ export default {
     name: String,
     row: {
       type: Boolean,
-      default: false
-    }
-  }
-}
+      default: false,
+    },
+  },
+};
 </script>
 <style lang="stylus">
 .app-view

@@ -30,17 +30,19 @@
   </div>
 </template>
 <script>
-import { clipboard, nativeImage } from 'electron'
-import qr from 'qr-image'
-import clickoutside from 'erguotou-iview/src/directives/clickoutside'
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-import { hideWindow } from '../../ipc'
-import { clone, merge } from '../../../shared/utils'
+import { clipboard, nativeImage } from 'electron';
+import qr from 'qr-image';
+import clickoutside from 'erguotou-iview/src/directives/clickoutside';
+import {
+  mapState, mapGetters, mapMutations, mapActions,
+} from 'vuex';
+import { hideWindow } from '../../ipc';
+import { clone, merge } from '../../../shared/utils';
 
-const COPY_TOOLTIP = '点击复制链接'
-const COPY_TOOLTIP_COPIED = '链接已复制'
+const COPY_TOOLTIP = '点击复制链接';
+const COPY_TOOLTIP_COPIED = '链接已复制';
 export default {
-  data () {
+  data() {
     return {
       isSSR: true,
       copyTooltip: COPY_TOOLTIP,
@@ -50,98 +52,98 @@ export default {
         show: false,
         left: 'auto',
         right: 'auto',
-        top: '0px'
-      }
-    }
+        top: '0px',
+      },
+    };
   },
   computed: {
     ...mapState(['appConfig', 'editingConfig']),
     ...mapGetters(['isEditingConfigUpdated']),
-    editingConfigLink () {
-      return this.isSSR ? this.editingConfig.getSSRLink() : this.editingConfig.getSSLink()
+    editingConfigLink() {
+      return this.isSSR ? this.editingConfig.getSSRLink() : this.editingConfig.getSSLink();
     },
-    editingConfigQR () {
-      return qr.svgObject(this.editingConfigLink)
-    }
+    editingConfigQR() {
+      return qr.svgObject(this.editingConfigLink);
+    },
   },
   directives: {
-    clickoutside
+    clickoutside,
   },
   methods: {
     ...mapMutations(['resetState', 'updateEditingBak']),
     ...mapActions(['updateConfigs']),
-    copyImage () {
-      const self = this
-      const base64Image = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(this.$refs.svg))}`
-      const img = new Image()
-      const canvas = document.createElement('canvas')
-      img.width = canvas.width = 280
-      img.height = canvas.height = 280
-      const ctx = canvas.getContext('2d')
-      ctx.fillStyle = '#fff'
-      ctx.fillRect(0, 0, 280, 280)
-      img.src = base64Image
+    copyImage() {
+      const self = this;
+      const base64Image = `data:image/svg+xml;base64,${btoa(new XMLSerializer().serializeToString(this.$refs.svg))}`;
+      const img = new Image();
+      const canvas = document.createElement('canvas');
+      img.width = canvas.width = 280;
+      img.height = canvas.height = 280;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, 280, 280);
+      img.src = base64Image;
       img.onload = function () {
-        ctx.drawImage(img, 0, 0, 280, 280)
-        clipboard.writeImage(nativeImage.createFromDataURL(canvas.toDataURL()))
-        self.$Message.success('已将二维码复制到剪贴板')
-      }
-      this.contextmenu.show = false
+        ctx.drawImage(img, 0, 0, 280, 280);
+        clipboard.writeImage(nativeImage.createFromDataURL(canvas.toDataURL()));
+        self.$Message.success('已将二维码复制到剪贴板');
+      };
+      this.contextmenu.show = false;
     },
-    copyLink () {
-      this.copied = true
-      this.copyTooltip = COPY_TOOLTIP_COPIED
-      clipboard.writeText(this.editingConfigLink)
+    copyLink() {
+      this.copied = true;
+      this.copyTooltip = COPY_TOOLTIP_COPIED;
+      clipboard.writeText(this.editingConfigLink);
       this.$nextTick(() => {
-        this.$refs.input.focus()
-      })
-      this.contextmenu.show = false
+        this.$refs.input.focus();
+      });
+      this.contextmenu.show = false;
     },
-    onCopyOver () {
+    onCopyOver() {
       if (this.timeout) {
-        clearTimeout(this.timeout)
-        this.timeout = null
+        clearTimeout(this.timeout);
+        this.timeout = null;
       }
     },
-    onCopyOut () {
+    onCopyOut() {
       this.timeout = setTimeout(() => {
-        this.copyTooltip = COPY_TOOLTIP
-      }, 500)
+        this.copyTooltip = COPY_TOOLTIP;
+      }, 500);
     },
-    onRightClick (e) {
-      const showOnRight = e.layerX < 180
+    onRightClick(e) {
+      const showOnRight = e.layerX < 180;
       merge(this.contextmenu, {
         show: true,
         left: showOnRight ? `${e.layerX + 4}px` : 'auto',
         right: showOnRight ? 'auto' : `${284 - e.layerX}px`,
-        top: `${e.layerY + 4}px`
-      })
+        top: `${e.layerY + 4}px`,
+      });
     },
-    clickoutside () {
-      this.contextmenu.show = false
+    clickoutside() {
+      this.contextmenu.show = false;
     },
-    cancel () {
-      this.resetState()
-      hideWindow()
+    cancel() {
+      this.resetState();
+      hideWindow();
     },
-    save () {
+    save() {
       if (this.editingConfig.isValid()) {
         if (this.isEditingConfigUpdated) {
-          const copy = this.appConfig.configs.slice()
-          const index = copy.findIndex(config => config.id === this.editingConfig.id)
-          copy.splice(index, 1)
-          copy.splice(index, 0, clone(this.editingConfig))
-          this.updateEditingBak()
-          this.updateConfigs(copy)
+          const copy = this.appConfig.configs.slice();
+          const index = copy.findIndex((config) => config.id === this.editingConfig.id);
+          copy.splice(index, 1);
+          copy.splice(index, 0, clone(this.editingConfig));
+          this.updateEditingBak();
+          this.updateConfigs(copy);
         } else {
-          hideWindow()
+          hideWindow();
         }
       } else {
-        window.alert('服务器配置信息不完整')
+        window.alert('服务器配置信息不完整');
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="stylus">
 @import '../../assets/styles/variable'

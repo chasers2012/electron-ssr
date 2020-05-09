@@ -11,41 +11,42 @@
   </i-form>
 </template>
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex';
+
 export default {
-  data () {
+  data() {
     return {
       rules: {
-        group: { required: true, message: '请输入分组名' }
+        group: { required: true, message: '请输入分组名' },
       },
       form: {
-        group: ''
-      }
-    }
+        group: '',
+      },
+    };
   },
   computed: {
-    ...mapState(['editingGroup', 'appConfig'])
+    ...mapState(['editingGroup', 'appConfig']),
   },
   watch: {
-    'editingGroup.title' (v) {
-      this.form.group = v
-    }
+    'editingGroup.title': function (v) {
+      this.form.group = v;
+    },
   },
   methods: {
     ...mapMutations(['updateEditingGroup']),
     ...mapActions(['updateConfigs']),
-    rename () {
+    rename() {
       if (this.form.group !== this.editingGroup.title) {
-        const clone = this.appConfig.configs.slice()
-        clone.forEach(config => {
+        const clone = this.appConfig.configs.slice();
+        clone.forEach((config) => {
           if (config.group === this.editingGroup.title) {
-            config.group = this.form.group
+            config.group = this.form.group;
           }
-        })
-        this.updateConfigs(clone)
-        this.updateEditingGroup({ updated: true, title: this.form.group })
+        });
+        this.updateConfigs(clone);
+        this.updateEditingGroup({ updated: true, title: this.form.group });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

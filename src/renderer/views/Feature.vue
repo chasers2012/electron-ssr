@@ -28,32 +28,33 @@
   </app-view>
 </template>
 <script>
-import IconCross from '../assets/icon_cross_platform.svg'
-import IconFunctions from '../assets/icon_functions.svg'
-import IconOpen from '../assets/icon_open_source.svg'
-import { STORE_KEY_FEATURE, STORE_KEY_AUTO_DOWNLOAD } from '../constants'
+import IconCross from '../assets/icon_cross_platform.svg';
+import IconFunctions from '../assets/icon_functions.svg';
+import IconOpen from '../assets/icon_open_source.svg';
+import { STORE_KEY_FEATURE, STORE_KEY_AUTO_DOWNLOAD } from '../constants';
+
 export default {
-  data () {
+  data() {
     return {
-      autoDownload: true
-    }
+      autoDownload: true,
+    };
   },
   components: {
-    IconCross, IconFunctions, IconOpen
+    IconCross, IconFunctions, IconOpen,
   },
   methods: {
-    updateAutoDownload (v) {
-      localStorage.setItem(STORE_KEY_AUTO_DOWNLOAD, v ? '1' : '0')
+    updateAutoDownload(v) {
+      localStorage.setItem(STORE_KEY_AUTO_DOWNLOAD, v ? '1' : '0');
     },
-    done () {
-      localStorage.setItem(STORE_KEY_FEATURE, 'read')
-      this.$emit('finished')
-    }
+    done() {
+      localStorage.setItem(STORE_KEY_FEATURE, 'read');
+      this.$emit('finished');
+    },
   },
-  created () {
-    this.updateAutoDownload(true)
-  }
-}
+  created() {
+    this.updateAutoDownload(true);
+  },
+};
 </script>
 <style lang="stylus">
 @import '../assets/styles/variable.styl'

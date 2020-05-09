@@ -9,7 +9,7 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: ["plugin:vue-libs/recommended"],
+  extends: ["plugin:vue-libs/recommended",'airbnb-base'],
   globals: {
     __static: true
   },
@@ -18,6 +18,7 @@ module.exports = {
   ],
   'rules': {
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'comma-dangle':  0
   }
-}
+};

@@ -8,17 +8,18 @@
   </app-view>
 </template>
 <script>
-import { mapState } from 'vuex'
-import SsrNodes from './panel/SSRNodes'
-import SsrForm from './panel/SSRForm'
-import SsrGroup from './panel/SSRGroup'
-import SsrQrcode from './panel/SSRQrcode'
+import { mapState } from 'vuex';
+import SsrNodes from './panel/SSRNodes';
+import SsrForm from './panel/SSRForm';
+import SsrGroup from './panel/SSRGroup';
+import SsrQrcode from './panel/SSRQrcode';
+
 export default {
   components: {
-    SsrNodes, SsrForm, SsrGroup, SsrQrcode
+    SsrNodes, SsrForm, SsrGroup, SsrQrcode,
   },
   computed: {
-    ...mapState(['editingGroup'])
-  }
-}
+    ...mapState(['editingGroup']),
+  },
+};
 </script>

@@ -43,9 +43,10 @@
   </i-form>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+
 export default {
-  data () {
+  data() {
     return {
       rules: {
         server: { required: true },
@@ -53,48 +54,47 @@ export default {
         password: { required: true },
         method: { required: true },
         protocol: { required: true },
-        obfs: { required: true }
+        obfs: { required: true },
       },
       passwordVisiable: false,
-      groupText: ''
-    }
+      groupText: '',
+    };
   },
   computed: {
     ...mapState(['appConfig', 'editingConfig', 'methods', 'protocols', 'obfses']),
-    groups () {
+    groups() {
       if (this.appConfig && this.appConfig.configs && this.appConfig.configs.length) {
-        const groups = []
-        this.appConfig.configs.forEach(config => {
+        const groups = [];
+        this.appConfig.configs.forEach((config) => {
           if (config.group) {
             if (groups.indexOf(config.group) < 0) {
-              groups.push(config.group)
+              groups.push(config.group);
             }
           }
-        })
-        return groups
-      } else {
-        return []
+        });
+        return groups;
       }
+      return [];
     },
-    filteredGroups () {
+    filteredGroups() {
       if (!this.editingConfig.group) {
-        return this.groups
+        return this.groups;
       }
-      return this.groups.filter(item => item.indexOf(this.editingConfig.group) > -1)
-    }
+      return this.groups.filter((item) => item.indexOf(this.editingConfig.group) > -1);
+    },
   },
   methods: {
-    onInput (field, v) {
-      this.$store.commit('updateEditing', { [field]: v })
+    onInput(field, v) {
+      this.$store.commit('updateEditing', { [field]: v });
     },
-    onObfsChange (v) {
-      this.onInput('obfs', v)
+    onObfsChange(v) {
+      this.onInput('obfs', v);
       if (v === 'plain') {
-        this.onInput('obfsparam', '')
+        this.onInput('obfsparam', '');
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="stylus">
 .panel-form
